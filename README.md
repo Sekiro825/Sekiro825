@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# Hi there, I'm Sekiro825! 👋
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/light.svg">
+    <img alt="Sekiro825 Profile Header" src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dark.svg" width="100%">
+  </picture>
+</p>
 
-## Available Scripts
+## 🚀 Animated GitHub Jet Contribution Heatmap
 
-In the project directory, you can run:
+<p align="center">
+  <img
+    src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dist/github-jet.svg"
+    alt="GitHub Jet Heatmap Animation"
+    width="100%"
+  />
+</p>
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🛠️ Tech Stack & Skills
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Languages:** JavaScript, TypeScript, Python, Java, C/C++
+- **Frontend:** React, HTML5, CSS3, Tailwind CSS
+- **Backend:** Node.js, Express.js, REST APIs
+- **Databases & Tools:** MongoDB, PostgreSQL, Firebase, Docker, Git, VS Code
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📊 GitHub Stats
 
-### `npm run build`
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api?username=Sekiro825&show_icons=true&theme=dark" alt="Sekiro825 GitHub Stats" height="170" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sekiro825&theme=dark" alt="Sekiro825 GitHub Streak" height="170" />
+</p>
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## ⚙️ How the Jet Heatmap Animation Works
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This profile repository automatically generates the **GitHub Jet Heatmap Animation** using GitHub Actions!
 
-### `npm run eject`
+- **Script:** `generate.mjs` fetches real contribution data via GitHub GraphQL API and constructs the animated SVG.
+- **Workflow:** `.github/workflows/jet-heatmap.yml` runs once every 24 hours (or on push/dispatch) to keep the animation updated with live contributions.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Quick Setup Steps for GitHub Actions:
+1. **Enable Write Permissions:** In your GitHub repo settings (`Settings` -> `Actions` -> `General` -> `Workflow permissions`), select **Read and write permissions**.
+2. **Trigger Workflow:** Go to `Actions` tab -> select `Update jet heatmap SVG` -> click **Run workflow**.
+3. It will generate `dist/github-jet.svg` and commit it back to your `main` branch automatically!
