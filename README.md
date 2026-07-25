@@ -78,8 +78,8 @@ Product Engineer Trainee specializing in Generative AI and Cybersecurity. Hands-
 ## GitHub Statistics
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=Sekiro825&show_icons=true&theme=dark&rank_icon=github&border_radius=8&cache_seconds=86400" alt="Sekiro825 GitHub Stats" height="175" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Sekiro825&layout=compact&theme=dark&border_radius=8&cache_seconds=86400" alt="Sekiro825 Top Languages" height="175" />
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api?username=Sekiro825&show_icons=true&theme=dark&rank_icon=github&border_radius=8" alt="Sekiro825 GitHub Stats" height="175" />
+  <img src="https://github-readme-stats-sigma-five.vercel.app/api/top-langs/?username=Sekiro825&layout=compact&theme=dark&border_radius=8" alt="Sekiro825 Top Languages" height="175" />
 </p>
 <p align="center">
   <img src="https://github-readme-streak-stats.herokuapp.com/?user=Sekiro825&theme=dark&border_radius=8" alt="Sekiro825 GitHub Streak" height="170" />
