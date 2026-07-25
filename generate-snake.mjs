@@ -3,7 +3,7 @@ import path from "node:path";
 
 const USERNAME = process.env.GH_USERNAME || "Sekiro825";
 
-// Grid dimensions matching standard GitHub heatmap layout
+// Grid dimensions matching standard GitHub 52-week contribution heatmap
 const COLS = 52;
 const ROWS = 7;
 const CELL_SIZE = 11;
@@ -41,11 +41,9 @@ function parseGithubHtml(html) {
     daysMap.set(match[1], parseInt(match[2], 10));
   }
 
-  // Extract total contributions text if available
   const textMatch = html.match(/([\d,]+)\s+contributions/i);
-  const totalCountText = textMatch ? textMatch[1] : "56";
+  const totalCountText = textMatch ? textMatch[1] : "68";
 
-  // Calculate 52-week calendar dates (Ending on current week's Saturday)
   const sortedDates = Array.from(daysMap.keys()).sort();
   const lastDateStr = sortedDates[sortedDates.length - 1] || "2026-07-25";
   const lastDate = new Date(lastDateStr + "T00:00:00Z");
@@ -97,75 +95,103 @@ function generateFallbackGrid() {
       if (level > 0) activeTargets.push(cell);
     }
   }
-  return { grid, activeTargets, totalCountText: "41" };
+  return { grid, activeTargets, totalCountText: "68" };
 }
 
 /**
- * Generate randomized, organic slithering path that visits active contribution cells
+ * Actual Snake Rules Pathfinding:
+ * - Snake starts at (0,0)
+ * - Traverses step-by-step to the nearest uneaten contribution cell (food)
+ * - When reaching food cell, eats it and length increases by 1 segment!
  */
-function buildOrganicSnakePath(grid, activeTargets) {
-  // Sort targets chronologically by column and row with slight randomness
-  const targets = [...activeTargets].sort((a, b) => a.col - b.col || a.row - b.row);
-  
-  const path = [{ col: 0, row: 0 }];
+function buildSnakePathAndGame(grid, activeTargets) {
+  const remainingTargets = new Set(activeTargets.map(t => `${t.col}-${t.row}`));
   const eatenMap = new Map(); // targetKey -> step index when eaten
 
-  let curr = { col: 0, row: 0 };
+  let head = { col: 0, row: 0 };
+  const path = [{ col: 0, row: 0 }];
+  const snakeLengths = [2]; // length at each step index
 
-  // Helper to step towards a coordinate
-  function stepTowards(target) {
-    while (curr.col !== target.col || curr.row !== target.row) {
-      const moves = [];
-      if (curr.col < target.col) moves.push({ col: curr.col + 1, row: curr.row });
-      if (curr.col > target.col) moves.push({ col: curr.col - 1, row: curr.row });
-      if (curr.row < target.row) moves.push({ col: curr.col, row: curr.row + 1 });
-      if (curr.row > target.row) moves.push({ col: curr.col, row: curr.row - 1 });
+  let currentLength = 2;
 
-      // Pick move closest to target or randomized slight turn
-      moves.sort((a, b) => {
-        const distA = Math.abs(a.col - target.col) + Math.abs(a.row - target.row);
-        const distB = Math.abs(b.col - target.col) + Math.abs(b.row - target.row);
-        return distA - distB;
-      });
+  function dist(a, b) {
+    return Math.abs(a.col - b.col) + Math.abs(a.row - b.row);
+  }
 
-      curr = moves[0];
-      path.push({ ...curr });
+  while (remainingTargets.size > 0) {
+    // Find closest target
+    let closestKey = null;
+    let minDist = Infinity;
+    let targetCoord = null;
 
-      // Check if we hit a target
-      const key = `${curr.col}-${curr.row}`;
-      if (!eatenMap.has(key)) {
-        const isTarget = targets.some(t => t.col === curr.col && t.row === curr.row);
-        if (isTarget) {
-          eatenMap.set(key, path.length - 1);
-        }
+    for (const key of remainingTargets) {
+      const [tc, tr] = key.split('-').map(Number);
+      const d = dist(head, { col: tc, row: tr });
+      if (d < minDist) {
+        minDist = d;
+        closestKey = key;
+        targetCoord = { col: tc, row: tr };
       }
+    }
+
+    if (!targetCoord) break;
+
+    // Step towards targetCoord step-by-step
+    while (head.col !== targetCoord.col || head.row !== targetCoord.row) {
+      const possibleMoves = [
+        { col: head.col + 1, row: head.row },
+        { col: head.col - 1, row: head.row },
+        { col: head.col, row: head.row + 1 },
+        { col: head.col, row: head.row - 1 },
+      ].filter(m => m.col >= 0 && m.col < COLS && m.row >= 0 && m.row < ROWS);
+
+      // Pick move that minimizes distance to target
+      possibleMoves.sort((a, b) => dist(a, targetCoord) - dist(b, targetCoord));
+      head = possibleMoves[0];
+      path.push({ ...head });
+
+      const key = `${head.col}-${head.row}`;
+      if (remainingTargets.has(key)) {
+        remainingTargets.delete(key);
+        eatenMap.set(key, path.length - 1);
+        currentLength = Math.min(18, currentLength + 1); // Snake grows upon eating food!
+      }
+
+      snakeLengths.push(currentLength);
     }
   }
 
-  // Visit all active targets sequentially
-  for (const t of targets) {
-    stepTowards(t);
+  // Final march to end of board
+  const endTarget = { col: COLS - 1, row: ROWS - 1 };
+  while (head.col !== endTarget.col || head.row !== endTarget.row) {
+    const possibleMoves = [
+      { col: head.col + 1, row: head.row },
+      { col: head.col - 1, row: head.row },
+      { col: head.col, row: head.row + 1 },
+      { col: head.col, row: head.row - 1 },
+    ].filter(m => m.col >= 0 && m.col < COLS && m.row >= 0 && m.row < ROWS);
+
+    possibleMoves.sort((a, b) => dist(a, endTarget) - dist(b, endTarget));
+    head = possibleMoves[0];
+    path.push({ ...head });
+    snakeLengths.push(currentLength);
   }
 
-  // Complete path to end of board
-  stepTowards({ col: COLS - 1, row: ROWS - 1 });
-
-  return { path, eatenMap };
+  return { path, snakeLengths, eatenMap };
 }
 
 /**
- * Generate animated SVG (Dark theme or Light theme)
+ * Generate animated SVG with Heatmap Color Snake
  */
 function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
-  const { path: snakePath, eatenMap } = buildOrganicSnakePath(grid, activeTargets);
+  const { path: snakePath, snakeLengths, eatenMap } = buildSnakePathAndGame(grid, activeTargets);
   const totalSteps = snakePath.length;
-  const loopDuration = 32; // Smooth slow arcade pacing (32 seconds)
+  const loopDuration = 32; // Smooth 32-second loop
 
-  // Styling & colors
   const bg = isDark ? "#030712" : "#ffffff";
   const cardBorder = isDark ? "#1e293b" : "#e2e8f0";
   const hudBg = isDark ? "#090d16" : "#f8fafc";
-  const hudText = isDark ? "#38bdf8" : "#0284c7";
+  const hudText = isDark ? "#39d353" : "#216e39";
   const textColor = isDark ? "#94a3b8" : "#475569";
 
   const emptyCell = isDark ? "#161b22" : "#ebedf0";
@@ -173,10 +199,13 @@ function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
     ? ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"]
     : ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"];
 
-  const headColor = isDark ? "#38bdf8" : "#0284c7";
-  const bodyColor = isDark ? "#818cf8" : "#4f46e5";
+  // Heatmap Snake Colors
+  const headColor = isDark ? "#39d353" : "#216e39"; // Brightest Heatmap Green
+  const bodyColorsDark = ["#26a641", "#006d32", "#7ee787", "#0e4429"];
+  const bodyColorsLight = ["#30a14e", "#40c463", "#9be9a8", "#216e39"];
+  const bodyColors = isDark ? bodyColorsDark : bodyColorsLight;
 
-  // Build Heatmap Cells with Eating Dissolve Animation
+  // Build Heatmap Grid Cells with Eating Animation
   let gridSvg = "";
   grid.forEach(c => {
     const key = `${c.col}-${c.row}`;
@@ -187,7 +216,7 @@ function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
     } else {
       const stepIdx = eatenMap.get(key);
       const eatTime = (stepIdx / (totalSteps - 1)).toFixed(4);
-      const fadeTime = (Math.min(1.0, stepIdx / (totalSteps - 1) + 0.02)).toFixed(4);
+      const fadeTime = (Math.min(1.0, stepIdx / (totalSteps - 1) + 0.015)).toFixed(4);
 
       gridSvg += `  <rect x="${c.x}" y="${c.y}" width="${CELL_SIZE}" height="${CELL_SIZE}" rx="2" fill="${origColor}">\n`;
       gridSvg += `    <animate attributeName="fill" dur="${loopDuration}s" repeatCount="indefinite"\n`;
@@ -195,45 +224,22 @@ function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
       gridSvg += `      values="${origColor};${origColor};${emptyCell};${emptyCell}"/>\n`;
       gridSvg += `    <animate attributeName="opacity" dur="${loopDuration}s" repeatCount="indefinite"\n`;
       gridSvg += `      keyTimes="0;${eatTime};${fadeTime};1"\n`;
-      gridSvg += `      values="1;1;0.35;0.35"/>\n`;
+      gridSvg += `      values="1;1;0.4;0.4"/>\n`;
       gridSvg += `  </rect>\n`;
     }
   });
 
-  // Build Snake with Dynamic Growth (starts small length=3, grows up to length=14)
-  const MAX_LENGTH = 14;
-  const keyTimesArr = [];
-  const headValuesArr = [];
-
-  snakePath.forEach((p, i) => {
-    const t = (i / (totalSteps - 1)).toFixed(4);
-    keyTimesArr.push(t);
-    const px = MARGIN_LEFT + p.col * STEP;
-    const py = MARGIN_TOP + p.row * STEP;
-    headValuesArr.push(`${px},${py}`);
-  });
-
+  // Build Snake Segments: Head at seg 0, Segments 1..MAX_SEG
+  const MAX_SEG = 18;
+  const keyTimesArr = snakePath.map((_, i) => (i / (totalSteps - 1)).toFixed(4));
   const keyTimesStr = keyTimesArr.join(";");
 
   let snakeSvg = `<g id="snake">\n`;
 
-  // Render Segments: Tail to Head
-  for (let seg = MAX_LENGTH; seg >= 0; seg--) {
+  for (let seg = MAX_SEG; seg >= 0; seg--) {
     const isHead = seg === 0;
-    const segOffset = seg;
 
     const valuesArr = [];
-    snakePath.forEach((p, i) => {
-      const shiftedIdx = Math.max(0, i - segOffset);
-      const sp = snakePath[shiftedIdx];
-      const sx = MARGIN_LEFT + sp.col * STEP;
-      const sy = MARGIN_TOP + sp.row * STEP;
-      valuesArr.push(`${sx},${sy}`);
-    });
-
-    const valuesStr = valuesArr.join(";");
-
-    // Growth calculation: snake starts small (length=3) and grows as it progresses along path
     const segOpacityKeyTimes = [];
     const segOpacityValues = [];
 
@@ -241,38 +247,45 @@ function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
       const t = (i / (totalSteps - 1)).toFixed(4);
       segOpacityKeyTimes.push(t);
 
-      // Current progress fraction (0.0 to 1.0)
-      const progress = i / totalSteps;
-      // Max length allowed at this stage of progress (starts at 3, reaches 14 at progress=0.8)
-      const currentAllowedLength = 3 + Math.floor(progress * (MAX_LENGTH - 3));
+      const shiftedIdx = Math.max(0, i - seg);
+      const sp = snakePath[shiftedIdx];
+      const sx = MARGIN_LEFT + sp.col * STEP;
+      const sy = MARGIN_TOP + sp.row * STEP;
+      valuesArr.push(`${sx},${sy}`);
 
-      if (seg <= currentAllowedLength) {
+      // Check if segment is active based on snake's length at step i
+      const lenAtStep = snakeLengths[i] || 2;
+      if (seg <= lenAtStep) {
         segOpacityValues.push("1");
       } else {
         segOpacityValues.push("0");
       }
     });
 
-    const color = isHead ? headColor : bodyColor;
-    const rx = isHead ? "3.5" : "2.5";
+    const valuesStr = valuesArr.join(";");
+    const color = isHead ? headColor : bodyColors[seg % bodyColors.length];
+    const rx = isHead ? "4" : "2.5";
 
-    snakeSvg += `  <rect width="${CELL_SIZE}" height="${CELL_SIZE}" rx="${rx}" fill="${color}">\n`;
-    snakeSvg += `    <animateTransform attributeName="transform" type="translate" dur="${loopDuration}s" repeatCount="indefinite"\n`;
-    snakeSvg += `      keyTimes="${keyTimesStr}" values="${valuesStr}"/>\n`;
-    snakeSvg += `    <animate attributeName="opacity" dur="${loopDuration}s" repeatCount="indefinite"\n`;
-    snakeSvg += `      keyTimes="${segOpacityKeyTimes.join(";")}" values="${segOpacityValues.join(";")}"/>\n`;
-    
+    snakeSvg += `  <g>\n`;
+    snakeSvg += `    <rect width="${CELL_SIZE}" height="${CELL_SIZE}" rx="${rx}" fill="${color}">\n`;
+    snakeSvg += `      <animateTransform attributeName="transform" type="translate" dur="${loopDuration}s" repeatCount="indefinite"\n`;
+    snakeSvg += `        keyTimes="${keyTimesStr}" values="${valuesStr}"/>\n`;
+    snakeSvg += `      <animate attributeName="opacity" dur="${loopDuration}s" repeatCount="indefinite"\n`;
+    snakeSvg += `        keyTimes="${segOpacityKeyTimes.join(";")}" values="${segOpacityValues.join(";")}"/>\n`;
+
     if (isHead) {
-      snakeSvg += `    <animate attributeName="filter" values="drop-shadow(0 0 5px ${headColor})" dur="1.2s" repeatCount="indefinite"/>\n`;
+      snakeSvg += `      <animate attributeName="filter" values="drop-shadow(0 0 6px ${headColor})" dur="1s" repeatCount="indefinite"/>\n`;
     }
-    snakeSvg += `  </rect>\n`;
+
+    snakeSvg += `    </rect>\n`;
+    snakeSvg += `  </g>\n`;
   }
 
   snakeSvg += `</g>\n`;
 
   const totalActive = activeTargets.length;
 
-  const svg = `<svg viewBox="0 0 ${SVG_WIDTH} ${SVG_HEIGHT}" width="100%" xmlns="http://www.w3.org/2000/svg">
+  return `<svg viewBox="0 0 ${SVG_WIDTH} ${SVG_HEIGHT}" width="100%" xmlns="http://www.w3.org/2000/svg">
   <style>
     .hud-title { font-family: 'Courier New', Consolas, monospace; font-size: 11px; font-weight: bold; fill: ${hudText}; letter-spacing: 1px; }
     .hud-stats { font-family: 'Courier New', Consolas, monospace; font-size: 11px; font-weight: bold; fill: ${headColor}; }
@@ -284,20 +297,18 @@ function buildSnakeSvg({ grid, activeTargets, totalCountText }, isDark = true) {
   <!-- HUD Bar -->
   <rect x="15" y="10" width="${SVG_WIDTH - 30}" height="22" rx="6" fill="${hudBg}" stroke="${cardBorder}" stroke-width="1"/>
   
-  <text x="25" y="25" class="hud-title">🐍 SEKIRO825 CONTRIBUTION SNAKE</text>
+  <text x="25" y="25" class="hud-title">🐍 SEKIRO825 CONTRIBUTION SNAKE (HEATMAP COLOR)</text>
   <text x="${SVG_WIDTH - 25}" y="25" text-anchor="end" class="hud-stats">
     TOTAL: ${totalCountText} CONTRIBUTIONS | HEATMAPS EATEN: ${totalActive}
   </text>
 
-  <!-- Exact Contribution Calendar Grid -->
+  <!-- Contribution Heatmap Grid -->
   <g id="grid">
 ${gridSvg}  </g>
 
-  <!-- Dynamic Organic Growing Snake -->
+  <!-- Heatmap Color Snake -->
   ${snakeSvg}
 </svg>`;
-
-  return svg;
 }
 
 async function main() {
@@ -315,7 +326,7 @@ async function main() {
   fs.writeFileSync(darkPath, darkSvg, "utf8");
   fs.writeFileSync(lightPath, lightSvg, "utf8");
 
-  console.log(`Updated SVGs successfully:\n - ${darkPath}\n - ${lightPath}`);
+  console.log(`Updated Snake SVGs successfully with Heatmap Colors & Snake Rules:\n - ${darkPath}\n - ${lightPath}`);
 }
 
 main().catch(err => {
