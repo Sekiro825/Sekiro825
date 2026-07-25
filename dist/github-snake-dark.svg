@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 145" width="100%">
+  <rect width="850" height="145" rx="10" fill="#0d1117"/>
+  <g transform="translate(25, 20)">
+    <!-- Header title -->
+    <text x="400" y="45" fill="#58a6ff" font-family="monospace" font-size="16" font-weight="bold" text-anchor="middle">
+      🐍 Sekiro825's Contribution Snake Heatmap
+    </text>
+    <text x="400" y="75" fill="#8b949e" font-family="monospace" font-size="12" text-anchor="middle">
+      Snake Action initializing... Live graph rendering in progress!
+    </text>
+    <!-- Slithering Snake animation preview -->
+    <circle cx="100" cy="95" r="6" fill="#39d353">
+      <animate attributeName="cx" values="100;700;100" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="85" cy="95" r="5.5" fill="#26a641">
+      <animate attributeName="cx" values="85;685;85" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="70" cy="95" r="5" fill="#006d32">
+      <animate attributeName="cx" values="70;670;70" dur="6s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+</svg>

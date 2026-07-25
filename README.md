@@ -2,20 +2,20 @@
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/light.svg">
-    <img alt="Sekiro825 Profile Header" src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dark.svg" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/light.svg">
+    <img alt="Sekiro825 Profile Header" src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/dark.svg" width="100%">
   </picture>
 </p>
 
-## 🚀 Animated GitHub Jet Contribution Heatmap
+## 🐍 Contribution Snake Game Heatmap
 
 <p align="center">
-  <img
-    src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/main/dist/github-jet.svg"
-    alt="GitHub Jet Heatmap Animation"
-    width="100%"
-  />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/dist/github-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/dist/github-snake.svg">
+    <img alt="Sekiro825 Contribution Snake" src="https://raw.githubusercontent.com/Sekiro825/Sekiro825/master/dist/github-snake-dark.svg" width="100%">
+  </picture>
 </p>
 
 ---
@@ -38,14 +38,8 @@
 
 ---
 
-## ⚙️ How the Jet Heatmap Animation Works
+## ⚙️ How to Activate Live Snake Animation on GitHub
 
-This profile repository automatically generates the **GitHub Jet Heatmap Animation** using GitHub Actions!
-
-- **Script:** `generate.mjs` fetches real contribution data via GitHub GraphQL API and constructs the animated SVG.
-- **Workflow:** `.github/workflows/jet-heatmap.yml` runs once every 24 hours (or on push/dispatch) to keep the animation updated with live contributions.
-
-### Quick Setup Steps for GitHub Actions:
-1. **Enable Write Permissions:** In your GitHub repo settings (`Settings` -> `Actions` -> `General` -> `Workflow permissions`), select **Read and write permissions**.
-2. **Trigger Workflow:** Go to `Actions` tab -> select `Update jet heatmap SVG` -> click **Run workflow**.
-3. It will generate `dist/github-jet.svg` and commit it back to your `main` branch automatically!
+1. **Enable Write Permissions:** In your GitHub repo (`https://github.com/Sekiro825/Sekiro825`), go to **Settings** → **Actions** → **General** → **Workflow permissions**, and select **Read and write permissions**.
+2. **Trigger the Action:** Go to the **Actions** tab on GitHub → select **Generate Snake Contribution Grid** → click **Run workflow**.
+3. The snake will slither across your GitHub contribution calendar, eating your contribution squares and growing!
