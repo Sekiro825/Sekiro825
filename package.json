@@ -15,6 +15,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "generate:snake": "node generate-snake.mjs",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
