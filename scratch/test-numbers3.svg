@@ -1,49 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1180" height="610" viewBox="0 0 1180 610">
-<defs>
-  <style>
-    .key        { font-family: 'Courier New', Consolas, monospace; font-size: 14px; fill: #0284C7; font-weight: bold; }
-    .value      { font-family: 'Courier New', Consolas, monospace; font-size: 14px; fill: #0f172a; }
-    .cc         { font-family: 'Courier New', Consolas, monospace; font-size: 14px; fill: #94a3b8; }
-    .head       { font-family: 'Courier New', Consolas, monospace; font-size: 16px; fill: #7c3aed; font-weight: bold; }
-    .accent     { font-family: 'Courier New', Consolas, monospace; font-size: 14px; fill: #059669; font-weight: bold; }
-    text, tspan { white-space: pre; }
-    .term-label { font-family: 'Courier New', Consolas, monospace; font-size: 12px; fill: #475569; letter-spacing: 0.5px; }
-    .scan-label { font-family: 'Courier New', Consolas, monospace; font-size: 10px; fill: #059669; letter-spacing: 1px; font-weight: bold; }
-    .panel-title{ font-family: 'Courier New', Consolas, monospace; font-size: 11px; fill: #0284C7; letter-spacing: 2px; opacity: 0.9; font-weight: bold; }
-    .ascii-text { font-family: 'Courier New', Consolas, monospace; font-size: 2.7px; font-weight: bold; letter-spacing: 0.3px; fill: #0F172A; }
-  </style>
-</defs>
-
-<!-- Main Container Card Background -->
-<rect width="1180" height="610" rx="16" fill="#ffffff"/>
-
-<!-- Top Titlebar -->
-<g id="titlebar">
-  <rect x="3" y="3" width="1174" height="36" rx="14" fill="#f1f5f9"/>
-  <circle cx="24" cy="21" r="5.5" fill="#EF4444"/>
-  <circle cx="42" cy="21" r="5.5" fill="#F59E0B"/>
-  <circle cx="60" cy="21" r="5.5" fill="#10B981"/>
-  <text x="590" y="25" text-anchor="middle" class="term-label">saket@devos ~ % ./profile.sh</text>
-  <circle cx="1122" cy="21" r="4" fill="#059669"></circle>
-  <text x="1132" y="25" class="scan-label">READY</text>
-</g>
-
-<g transform="translate(0,38)">
-  <!-- Left Panel: VISUAL.MAP Frame -->
-  <rect x="16" y="22" width="484" height="476" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-  <text x="32" y="44" class="panel-title">VISUAL.MAP // NUMBER_MATRIX</text>
-
-  <!-- Cyber Badge Overlay -->
-  <rect x="32" y="54" width="165" height="20" rx="4" fill="#ffffff" opacity="0.85" stroke="#cbd5e1" stroke-width="1"/>
-  <circle cx="42" cy="64" r="3.5" fill="#059669"></circle>
-  <text x="52" y="68" class="term-label" font-size="9px" fill="#059669">ID :: SAKET (STATIC MATRIX)</text>
-  
-  <!-- Visual Map Viewport -->
-  <g id="visual-map-viewport">
-    <rect x="32" y="64" width="452" height="418" rx="12" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="1"/>
-    
-    <!-- Face details from photo mapped strictly to a high-res monochrome number matrix -->
-    <text class="ascii-text">
+  <rect width="1180" height="610" fill="#030712" />
+  <rect x="32" y="64" width="452" height="418" rx="12" fill="#020408" stroke="#1E293B" />
+  <text font-family="'Courier New', Consolas, monospace" font-size="2.7px" font-weight="bold" fill="#F1F5F9" letter-spacing="0.3px">
   <tspan x="34" y="70.0">                                                                                                                                                                                                        </tspan>
   <tspan x="34" y="72.9">                                                                                                                                                                                                        </tspan>
   <tspan x="34" y="75.8">                                                                                                                                                                                                        </tspan>
@@ -189,63 +147,6 @@
   <tspan x="34" y="479.4">                 522222222222222222222222233333377711   73333333333333333232232322222222233333333373333333333339             92333333337777777777777777771  11117777773                                 </tspan>
   <tspan x="34" y="482.2">                 4222222222222222222222222333333777111  73333333333333333333323223222233233333333337333333333332             62333333337777777777777777771  11111777777                                 </tspan>
   <tspan x="34" y="485.1">                 2222222222222222222222223333333777111  773333333333333333233333233232223333333333373333333333339            42333333371777777777777777771  111117777779                                </tspan>
-    </text>
-  </g>
 
-  <!-- Right Panel: SYSTEM.INFO -->
-  <rect x="516" y="22" width="648" height="476" rx="16" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
-  <text x="536" y="44" class="panel-title">SYSTEM.INFO</text>
-  
-  <!-- Content Lines -->
-  <g transform="translate(536,76)">
-    <text y="0"   class="head">saket@devos</text>
-    <text y="20"  class="cc">----------------------------------------------------</text>
-    
-    <text y="44"  class="key">. Subject:</text>
-    <text x="150" y="44"  class="value">Saket Sanjay Pokale</text>
-    
-    <text y="68"  class="key">. Role:</text>
-    <text x="150" y="68"  class="value">Product Engineer Trainee · GenAI &amp; Security</text>
-    
-    <text y="92"  class="key">. Origin:</text>
-    <text x="150" y="92"  class="value">Mumbai, India</text>
-    
-    <text y="116" class="key">. Education:</text>
-    <text x="150" y="116" class="value">BE CS &amp; Honors Cyber Security, CRCE</text>
-    
-    <text y="140" class="key">. Status:</text>
-    <text x="150" y="140" class="accent">Building Enterprise AI &amp; Security Systems</text>
-    
-    <text y="164" class="key">. ToolChain:</text>
-    <text x="150" y="164" class="value">Python, React, Next.js, PyTorch, Docker</text>
-    
-    <text y="196" class="cc">----------------------------------------------------</text>
-    
-    <text y="220" class="key">. Core.Lang:</text>
-    <text x="150" y="220" class="value">Python, JavaScript, TypeScript, Node.js, C/C++</text>
-    
-    <text y="244" class="key">. Core.AI/ML:</text>
-    <text x="150" y="244" class="value">PyTorch, TensorFlow, OpenCV, RAG, ChromaDB</text>
-    
-    <text y="268" class="key">. Core.Frontend:</text>
-    <text x="150" y="268" class="value">React, Next.js, React Native, Tailwind</text>
-    
-    <text y="292" class="key">. Core.Backend:</text>
-    <text x="150" y="292" class="value">Express.js, REST APIs, Supabase, Firebase</text>
-    
-    <text y="316" class="key">. Core.Security:</text>
-    <text x="150" y="316" class="value">Cyber Security, Ethical Hacking, PII Filters</text>
-    
-    <text y="348" class="cc">----------------------------------------------------</text>
-    
-    <text y="372" class="key">. Grid.Mail:</text>
-    <text x="150" y="372" class="value">saket82005@gmail.com</text>
-    
-    <text y="396" class="key">. Grid.LinkedIn:</text>
-    <text x="150" y="396" class="value">saket-pokale-2778471b0</text>
-
-    <text y="420" class="key">. Grid.Github:</text>
-    <text x="150" y="420" class="value">Sekiro825</text>
-  </g>
-</g>
+  </text>
 </svg>
