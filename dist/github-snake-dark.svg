@@ -12,7 +12,7 @@
   
   <text x="25" y="25" class="hud-title">🐍 SEKIRO825 CONTRIBUTION SNAKE (HEATMAP COLOR)</text>
   <text x="772" y="25" text-anchor="end" class="hud-stats">
-    TOTAL: 438 CONTRIBUTIONS | HEATMAPS EATEN: 128
+    TOTAL: 442 CONTRIBUTIONS | HEATMAPS EATEN: 129
   </text>
 
   <!-- Contribution Heatmap Grid -->
@@ -1280,7 +1280,14 @@
       keyTimes="0;0.6028;0.6148;1"
       values="1;1;0.35;0.35"/>
   </rect>
-  <rect x="763" y="84" width="11" height="11" rx="2" fill="#161b22"/>
+  <rect x="763" y="84" width="11" height="11" rx="2" fill="#006d32">
+    <animate attributeName="fill" dur="34s" repeatCount="indefinite"
+      keyTimes="0;0.5993;0.6113;1"
+      values="#006d32;#006d32;#161b22;#161b22"/>
+    <animate attributeName="opacity" dur="34s" repeatCount="indefinite"
+      keyTimes="0;0.5993;0.6113;1"
+      values="1;1;0.35;0.35"/>
+  </rect>
   <rect x="763" y="98" width="11" height="11" rx="2" fill="#161b22"/>
   <rect x="763" y="112" width="11" height="11" rx="2" fill="#161b22"/>
   <rect x="763" y="126" width="11" height="11" rx="2" fill="#161b22"/>
